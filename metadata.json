@@ -1,0 +1,7 @@
+{
+  "name": "Employees361",
+  "description": "AI-enabled growth model showcase for SMBs looking to add high-skilled agents with world class skills and capbilities, securely doing work for your company - always ensuring human-in-charge",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

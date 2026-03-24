@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;500&family=Playfair+Display:wght@500;600&display=swap');
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* Colors */
+  --color-background: #F6F3EE; /* Base Canvas */
+  --color-card: #E8E2D9; /* Warm Stone */
+  --color-foreground: #1A1F1A; /* Deep Charcoal */
+  --color-muted-foreground: #6E6A5E; /* Muted */
+  --color-primary: #1F4A3A; /* Deep Green */
+  --color-primary-foreground: #F6F3EE; /* Cream on Deep Green */
+  --color-terracotta: #C35C3C; /* Interaction */
+  --color-terracotta-foreground: #F6F3EE;
+  --color-accent: #C9A962; /* Champagne Bronze */
+  --color-border: #CCC4B8; /* Warm Border */
+
+  /* Typography */
+  --font-display: "Playfair Display", serif;
+  --font-body: "Lexend", sans-serif;
+
+  /* Spacing Scale */
+  --spacing-space-1: 4px;
+  --spacing-space-2: 8px;
+  --spacing-space-3: 12px;
+  --spacing-space-4: 16px;
+  --spacing-space-5: 24px;
+  --spacing-space-6: 32px;
+  --spacing-space-7: 48px;
+  --spacing-space-8: 64px;
+  --spacing-space-9: 96px;
+
+  /* Layout */
+  --spacing-section-gap: 72px;
+  --spacing-headline-gap: 40px;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+}
