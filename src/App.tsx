@@ -73,7 +73,7 @@ function AIAssistant({ lang }: { lang: "no" | "en" }) {
       setMessages(prev => [...prev, { role: 'model', text: response.text || '' }]);
     } catch (error) {
       console.error('Error generating response:', error);
-      setMessages(prev => [...prev, { role: 'model', text: 'Beklager, det oppstod en feil.' }]);
+      setMessages(prev => [...prev, { role: 'model', text: lang === "no" ? 'Beklager, det oppstod en feil.' : 'Sorry, an error occurred.' }]);
     } finally {
       setIsLoading(false);
     }
@@ -107,7 +107,7 @@ function AIAssistant({ lang }: { lang: "no" | "en" }) {
       setIsRecording(true);
     } catch (error) {
       console.error('Error accessing microphone:', error);
-      alert('Kunne ikke få tilgang til mikrofonen. Sjekk tillatelser.');
+      alert(lang === "no" ? 'Kunne ikke få tilgang til mikrofonen. Sjekk tillatelser.' : 'Could not access the microphone. Check permissions.');
     }
   };
 
@@ -142,7 +142,7 @@ function AIAssistant({ lang }: { lang: "no" | "en" }) {
       }
     } catch (error) {
       console.error('Error transcribing audio:', error);
-      alert('Klarte ikke å transkribere lyden.');
+      alert(lang === "no" ? 'Klarte ikke å transkribere lyden.' : 'Failed to transcribe audio.');
     } finally {
       setIsLoading(false);
     }
@@ -195,7 +195,7 @@ function AIAssistant({ lang }: { lang: "no" | "en" }) {
                 mode === 'fast' ? 'bg-terracotta text-terracotta-foreground' : 'text-foreground hover:bg-border'
               }`}
             >
-              <Zap className="h-3.5 w-3.5" /> Rask
+              <Zap className="h-3.5 w-3.5" /> {lang === "no" ? "Rask" : "Fast"}
             </button>
             <button
               onClick={() => setMode('think')}
@@ -203,7 +203,7 @@ function AIAssistant({ lang }: { lang: "no" | "en" }) {
                 mode === 'think' ? 'bg-terracotta text-terracotta-foreground' : 'text-foreground hover:bg-border'
               }`}
             >
-              <Brain className="h-3.5 w-3.5" /> Dyp
+              <Brain className="h-3.5 w-3.5" /> {lang === "no" ? "Dyp" : "Deep"}
             </button>
           </div>
 
@@ -247,7 +247,7 @@ function AIAssistant({ lang }: { lang: "no" | "en" }) {
                       handleSend();
                     }
                   }}
-                  placeholder="Skriv en melding..."
+                  placeholder={lang === "no" ? "Skriv en melding..." : "Type a message..."}
                   className="w-full bg-background border border-border rounded-lg pl-space-3 pr-10 py-space-2 font-body text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary resize-none h-[44px]"
                   rows={1}
                 />
@@ -280,12 +280,7 @@ function AIAssistant({ lang }: { lang: "no" | "en" }) {
 function AgentBuilder({ lang }: { lang: "no" | "en" }) {
   const [stepIndex, setStepIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedAgent, setSelectedAgent] = useState<{
-    name: string;
-    description: string;
-    baseSkills: string[];
-    mode: 'Autonom' | 'Ko-pilot' | 'Orkestrert';
-  } | null>(null);
+  const [selectedAgent, setSelectedAgent] = useState<any | null>(null);
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
   // Agent Finder State
@@ -631,7 +626,7 @@ function AgentBuilder({ lang }: { lang: "no" | "en" }) {
 
   useEffect(() => {
     if (stepIndex === 2 && selectedAgent) {
-      setSelectedSkills(selectedAgent.baseSkills);
+      setSelectedSkills(selectedAgent.baseSkills[lang]);
     }
   }, [stepIndex, selectedAgent]);
 
@@ -676,7 +671,7 @@ function AgentBuilder({ lang }: { lang: "no" | "en" }) {
       
       const prompt = buildImagenPrompt(
         categoryName,
-        selectedAgent.name,
+        selectedAgent.name[lang],
         selectedSkills
       );
       
@@ -789,7 +784,7 @@ Ingen annen tekst. Kun JSON.
 Du er en AI-rådgiver som skriver klare, konkrete beskrivelser for norske SMB-ledere.
 
 Agent som er konfigurert:
-- Navn: ${selectedAgent.name}
+- Navn: ${selectedAgent.name[lang]}
 - Kategori: ${categoryName}
 - Kontrollmodus: ${selectedAgent.mode}
 - Valgte ferdigheter: ${selectedSkills.join(', ')}
@@ -829,7 +824,7 @@ Skriv i andre person ("Denne agenten..."). Svar på norsk.
       const agentQAPrompt = `
 Du er en ekspert på AI-implementering for norske SMB-er.
 Kontekst: Brukeren har konfigurert følgende agent:
-- Navn: ${selectedAgent.name}, Kategori: ${categoryName}
+- Navn: ${selectedAgent.name[lang]}, Kategori: ${categoryName}
 - Ferdigheter: ${selectedSkills.join(', ')}
 - Kontrollmodus: ${selectedAgent.mode}
 
@@ -861,12 +856,7 @@ Svar konsist (maks 3 setninger), praktisk og på norsk. Unngå teknisk jargong.
         if (cat) {
           setSelectedCategory(cat.id);
         }
-        setSelectedAgent({
-          name: agent.name[lang],
-          description: agent.description[lang],
-          baseSkills: agent.baseSkills[lang],
-          mode: agent.mode
-        });
+        setSelectedAgent(agent);
         setSelectedSkills(match.suggestedSkills || agent.baseSkills[lang]);
         setStepIndex(2);
       }
@@ -1007,17 +997,12 @@ Svar konsist (maks 3 setninger), praktisk og på norsk. Unngå teknisk jargong.
           <div className="grid grid-cols-1 md:grid-cols-2 gap-space-4">
             {selectedCategory && categories.find(c => c.id === selectedCategory) && 
               agentsByCategory[categories.find(c => c.id === selectedCategory)!.no.title]?.map((agent, idx) => {
-                const isSelected = selectedAgent?.name === agent.name[lang];
+                const isSelected = selectedAgent?.name?.no === agent.name.no;
                 
                 return (
                   <div
                     key={idx}
-                    onClick={() => setSelectedAgent({
-                      name: agent.name[lang],
-                      description: agent.description[lang],
-                      baseSkills: agent.baseSkills[lang],
-                      mode: agent.mode
-                    })}
+                    onClick={() => setSelectedAgent(agent)}
                     className={`border rounded-lg p-space-5 cursor-pointer transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] ${
                       isSelected 
                         ? 'bg-primary text-primary-foreground border-primary' 
@@ -1035,7 +1020,7 @@ Svar konsist (maks 3 setninger), praktisk og på norsk. Unngå teknisk jargong.
                             ? isSelected ? 'bg-primary-foreground/20 text-primary-foreground' : 'bg-primary text-primary-foreground'
                             : 'bg-card border border-border text-foreground'
                       }`}>
-                        {agent.mode}
+                        {agent.mode === 'Autonom' ? (lang === "no" ? "Autonom" : "Autonomous") : agent.mode === 'Ko-pilot' ? (lang === "no" ? "Ko-pilot" : "Co-pilot") : (lang === "no" ? "Orkestrert" : "Orchestrated")}
                       </span>
                     </div>
                     <p className={`font-body text-[13px] ${
@@ -1271,7 +1256,7 @@ Svar konsist (maks 3 setninger), praktisk og på norsk. Unngå teknisk jargong.
           {/* TOP SECTION */}
           <div className="bg-primary text-primary-foreground rounded-lg p-space-6">
             <h2 className="font-display text-3xl font-medium text-primary-foreground">
-              {selectedAgent.name}
+              {selectedAgent.name[lang]}
             </h2>
             <div className="inline-block bg-primary-foreground/15 text-primary-foreground rounded-full px-3 py-1 text-xs mt-space-2">
               {selectedCategory && categories.find(c => c.id === selectedCategory)?.[lang].title}
@@ -1300,7 +1285,7 @@ Svar konsist (maks 3 setninger), praktisk og på norsk. Unngå teknisk jargong.
               ) : agentImage ? (
                 <img
                   src={agentImage}
-                  alt={selectedAgent.name}
+                  alt={selectedAgent.name[lang]}
                   className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                 />
               ) : (
@@ -1608,7 +1593,7 @@ export default function App() {
       navTitle: "Navigasjon",
       settingsTitle: "Innstillinger",
       aboutTitle: "Om Employees 361",
-      aboutText: "Employees 361 er bygget av ThreeSixtyOne — et norsk AI-rådgivningsfirma som hjelper SMB-er å gå fra AI-nysgjerrighet til faktisk gjennomføring. Besøk oss på the361.ai",
+      aboutText: "Employees 361 er bygget av ThreeSixtyOne — en norsk AI-agentbygger og instruktør som hjelper SMB-er å gå fra AI-nysgjerrighet til faktisk gjennomføring. Besøk oss på www.threesixtyone.ai",
       tabRoles: "Praktiske roller",
       tabPerspective: "AI-perspektivet",
       tabBuilder: "Bygg ditt team",
@@ -1685,7 +1670,7 @@ export default function App() {
       navTitle: "Navigation",
       settingsTitle: "Settings",
       aboutTitle: "About Employees 361",
-      aboutText: "Employees 361 is built by ThreeSixtyOne — a Norwegian AI consultancy that helps SMBs move from AI curiosity to actual implementation. Visit us at the361.ai",
+      aboutText: "Employees 361 is built by ThreeSixtyOne — a Norwegian AI agent builder and instructor that helps SMBs move from AI curiosity to actual implementation. Visit us at www.threesixtyone.ai",
       tabRoles: "Practical roles",
       tabPerspective: "The AI perspective",
       tabBuilder: "Build your team",
