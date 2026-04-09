@@ -1,6 +1,10 @@
 import React, { useMemo, useState, useRef, useEffect } from "react";
 import { ArrowLeft, ArrowRight, CheckCircle2, MessageSquare, X, Mic, Square, Send, Zap, Brain, Sparkles, Wrench, UserPlus, Network, BookOpen, Loader2, FileText, Link, Check, ChevronRight, FileUp, Plus, Trash2, Users, Sliders, Settings, BarChart2, MessageCircle, Rss, Monitor, Briefcase, ChevronDown } from "lucide-react";
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
+import { LiveAgentDemo } from "./components/LiveAgentDemo";
+import { RoiCalculator } from "./components/RoiCalculator";
+import { TrustSection } from "./components/TrustSection";
+import { BookingModal, type BookingSeed } from "./components/BookingModal";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -277,7 +281,7 @@ function AIAssistant({ lang }: { lang: "no" | "en" }) {
   );
 }
 
-function AgentBuilder({ lang }: { lang: "no" | "en" }) {
+function AgentBuilder({ lang, onBookIntro }: { lang: "no" | "en"; onBookIntro: (seed?: BookingSeed) => void }) {
   const [stepIndex, setStepIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedAgent, setSelectedAgent] = useState<{
@@ -1408,8 +1412,14 @@ Svar konsist (maks 3 setninger), praktisk og på norsk. Unngå teknisk jargong.
             </p>
 
             {/* CTA BUTTON */}
-            <button 
-              onClick={() => window.location.href = "mailto:hei@the361.ai"}
+            <button
+              onClick={() => {
+                const agentName = selectedAgent?.name ?? "";
+                const summary = lang === "no"
+                  ? `Ønsker å utforske: ${agentName}. Valgte ferdigheter: ${selectedSkills.join(", ") || "ingen"}.`
+                  : `Wants to explore: ${agentName}. Selected skills: ${selectedSkills.join(", ") || "none"}.`;
+                onBookIntro({ summary });
+              }}
               className="mt-space-5 w-full h-[48px] bg-terracotta text-terracotta-foreground rounded-lg font-body text-sm font-medium hover:opacity-90 transition-all duration-200 active:scale-[0.98] flex items-center justify-center"
             >
               {lang === "no" ? "Book en introduksjon med ThreeSixtyOne" : "Book an intro with ThreeSixtyOne"}
@@ -1562,6 +1572,15 @@ export default function App() {
   const [selectedRole, setSelectedRole] = useState("meeting");
   const [selectedDepth, setSelectedDepth] = useState("overview");
   const appMainRef = useRef<HTMLDivElement>(null);
+
+  // Booking modal state — shared across the app so the ROI calculator,
+  // AgentBuilder CTA, and any future trigger can open the same qualified flow.
+  const [bookingOpen, setBookingOpen] = useState(false);
+  const [bookingSeed, setBookingSeed] = useState<BookingSeed | undefined>(undefined);
+  const openBooking = (seed?: BookingSeed) => {
+    setBookingSeed(seed);
+    setBookingOpen(true);
+  };
 
   const copy = {
     no: {
@@ -2253,13 +2272,7 @@ export default function App() {
     }
 
     if (selectedDepth === "demo") {
-      return (
-        <div className="bg-card border border-border rounded-lg p-space-6 text-center py-space-12">
-          <p className="font-body text-muted-foreground">
-            {lang === "no" ? "Demo for denne rollen er under utvikling." : "Demo for this role is under development."}
-          </p>
-        </div>
-      );
+      return <LiveAgentDemo roleKey={selectedRole} lang={lang} />;
     }
 
     return (
@@ -2584,6 +2597,12 @@ export default function App() {
                 </div>
               </div>
             </div>
+
+            {/* ROI Calculator — economic conviction */}
+            <RoiCalculator lang={lang} onOpenBooking={openBooking} />
+
+            {/* Trust & Security — Nordic SMB prerequisites */}
+            <TrustSection lang={lang} />
           </section>
         )}
 
@@ -2744,12 +2763,18 @@ export default function App() {
           </>
         )}
         {mainTab === "builder" && (
-          <AgentBuilder lang={lang} />
+          <AgentBuilder lang={lang} onBookIntro={openBooking} />
         )}
 
       </main>
       <AIAssistant lang={lang} />
       </div>
+      <BookingModal
+        open={bookingOpen}
+        onClose={() => setBookingOpen(false)}
+        seed={bookingSeed}
+        lang={lang}
+      />
     </>
   );
 }
