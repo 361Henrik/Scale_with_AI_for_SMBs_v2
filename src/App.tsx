@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useRef, useEffect } from "react";
-import { ArrowLeft, ArrowRight, CheckCircle2, MessageSquare, X, Mic, Square, Send, Zap, Brain, Sparkles, Wrench, UserPlus, Network, BookOpen, Loader2, FileText, Link, Check, ChevronRight, FileUp, Plus, Trash2, Users, Sliders, Settings, BarChart2, MessageCircle, Rss, Monitor, Briefcase } from "lucide-react";
-import Markdown from "react-markdown";
+import { ArrowLeft, ArrowRight, CheckCircle2, MessageSquare, X, Mic, Square, Send, Zap, Brain, Sparkles, Wrench, UserPlus, Network, BookOpen, Loader2, FileText, Link, Check, ChevronRight, FileUp, Plus, Trash2, Users, Sliders, Settings, BarChart2, MessageCircle, Rss, Monitor, Briefcase, ChevronDown } from "lucide-react";
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -168,8 +167,8 @@ function AIAssistant({ lang }: { lang: "no" | "en" }) {
           {/* Header */}
           <div className="bg-primary text-primary-foreground p-space-4 flex items-center justify-between shrink-0">
             <div>
-              <h3 className="font-display text-lg font-medium tracking-headline">Ascension AI</h3>
-              <p className="font-body text-xs opacity-80">Din tenkepartner</p>
+              <h3 className="font-display text-lg font-medium tracking-headline">Employees 361</h3>
+              <p className="font-body text-xs opacity-80">{lang === "no" ? "Din tenkepartner" : "Your thinking partner"}</p>
             </div>
             <button 
               onClick={() => setIsOpen(false)}
@@ -1432,11 +1431,137 @@ Svar konsist (maks 3 setninger), praktisk og på norsk. Unngå teknisk jargong.
   );
 }
 
+function HeroSection({ lang, setLang, setMainTab }: { lang: "no" | "en", setLang: (l: "no" | "en") => void, setMainTab: (t: "roles" | "perspective" | "builder") => void }) {
+  const scrollToApp = () => {
+    const appMain = document.getElementById("app-main");
+    if (appMain) {
+      appMain.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleSecondaryClick = () => {
+    setMainTab("builder");
+    scrollToApp();
+  };
+
+  return (
+    <section className="relative min-h-screen bg-primary w-full flex flex-col justify-center px-space-6 py-space-12 overflow-hidden">
+      <div className="w-full max-w-7xl mx-auto lg:grid lg:grid-cols-[1.3fr_0.7fr] lg:gap-space-8 flex flex-col gap-space-6">
+        {/* LEFT COLUMN */}
+        <div 
+          className="flex flex-col"
+        >
+          <div className="flex justify-between items-start mb-space-12">
+            <div className="bg-white/10 border border-white/20 rounded-lg p-1 flex gap-1">
+              <button
+                onClick={() => setLang("no")}
+                className={`rounded-md px-3 min-h-[36px] font-body text-sm font-medium transition-colors ${
+                  lang === "no"
+                    ? "bg-accent text-foreground"
+                    : "text-primary-foreground/80 hover:bg-white/10"
+                }`}
+              >
+                NO
+              </button>
+              <button
+                onClick={() => setLang("en")}
+                className={`rounded-md px-3 min-h-[36px] font-body text-sm font-medium transition-colors ${
+                  lang === "en"
+                    ? "bg-accent text-foreground"
+                    : "text-primary-foreground/80 hover:bg-white/10"
+                }`}
+              >
+                EN
+              </button>
+            </div>
+            <div className="font-body text-xs uppercase tracking-widest text-accent text-right">
+              ThreeSixtyOne · Employees 361
+            </div>
+          </div>
+
+          <h1 className="font-display font-bold leading-[1.05] text-primary-foreground text-5xl md:text-6xl lg:text-7xl whitespace-pre-line">
+            {lang === "no" 
+              ? "Ti ansatte.\nKapasiteten til tjuefem." 
+              : "Ten employees.\nThe capacity of twenty-five."}
+          </h1>
+
+          <p className="font-body text-lg md:text-xl text-primary-foreground/80 leading-relaxed max-w-[48ch] mt-space-5">
+            {lang === "no"
+              ? "Employees 361 gir norske SMB-er tilgang til AI-støttede medarbeidere som tar arbeidet rundt menneskene — ikke jobben til menneskene."
+              : "Employees 361 gives Nordic SMBs access to AI-supported team members that handle the work around people — not the work of people."}
+          </p>
+
+          <div className="mt-space-8 flex gap-space-4 flex-wrap">
+            <button 
+              onClick={scrollToApp}
+              className="bg-accent text-foreground rounded-lg h-[48px] px-space-7 font-body font-medium text-base hover:opacity-90 transition-opacity"
+            >
+              {lang === "no" ? "Se hvilke roller som passer deg" : "See which roles fit your business"}
+            </button>
+            <button 
+              onClick={handleSecondaryClick}
+              className="border border-primary-foreground/30 text-primary-foreground rounded-lg h-[48px] px-space-7 font-body font-medium text-base hover:bg-white/5 transition-colors"
+            >
+              {lang === "no" ? "Bygg ditt første AI-teammedlem" : "Build your first AI team member"}
+            </button>
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN */}
+        <div 
+          className="flex flex-col gap-space-4 justify-center"
+        >
+          <div className="bg-white/8 border border-white/15 rounded-lg p-space-5">
+            <div className="font-display text-5xl font-bold text-accent">
+              2–5x
+            </div>
+            <p className="font-body text-sm text-primary-foreground/80 mt-space-2">
+              {lang === "no" 
+                ? "mer output fra de samme menneskene når repeterbare oppgaver flyttes til AI-støttede roller." 
+                : "more output from the same people when repetitive tasks are moved to AI-supported roles."}
+            </p>
+          </div>
+
+          <div className="bg-white/8 border border-white/15 rounded-lg p-space-5">
+            <div className="font-display text-5xl font-bold text-accent">
+              30 dager
+            </div>
+            <p className="font-body text-sm text-primary-foreground/80 mt-space-2">
+              {lang === "no"
+                ? "til første AI-støttede arbeidsflyt er operativ. Ingen kode. Ingen IT-prosjekt."
+                : "to your first AI-supported workflow being operational. No code. No IT project."}
+            </p>
+          </div>
+
+          <div className="bg-white/8 border border-white/15 rounded-lg p-space-5">
+            <div className="font-display text-5xl font-bold text-accent">
+              7 roller
+            </div>
+            <p className="font-body text-sm text-primary-foreground/80 mt-space-2">
+              {lang === "no"
+                ? "tilgjengelige nå. Velg kategori, konfigurer, koble til din arbeidsflate."
+                : "available now. Choose category, configure, connect to your workspace."}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute bottom-space-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-primary-foreground/50 cursor-pointer" onClick={scrollToApp}>
+        <span className="font-body text-xs uppercase tracking-widest">
+          {lang === "no" ? "Se mer" : "Explore"}
+        </span>
+        <ChevronDown className="w-5 h-5 animate-bounce" />
+      </div>
+    </section>
+  );
+}
+
 export default function App() {
   const [lang, setLang] = useState<"no" | "en">("no");
-  const [mainTab, setMainTab] = useState<"roles" | "perspective" | "builder">("perspective");
+  const [mainTab, setMainTab] = useState<"roles" | "perspective" | "builder">("roles");
   const [selectedRole, setSelectedRole] = useState("meeting");
   const [selectedDepth, setSelectedDepth] = useState("overview");
+  const appMainRef = useRef<HTMLDivElement>(null);
 
   const copy = {
     no: {
@@ -1473,20 +1598,20 @@ export default function App() {
       rolesTitle: "Roller som kan bygges først",
       recsTitle: "Strategiske anbefalinger basert på erfaringene så langt",
       recsSubtitle:
-        "Disse anbefalingene kobler det du allerede har erfart om AI-adopsjon, arbeidsmåter og modenhet til hva Ascension mest sannsynlig trenger nå.",
+        "Disse anbefalingene er basert på erfaring fra norske SMB-er som har innført AI i hverdagen — fra første forsiktige steg til fungerende arbeidsflyter.",
       roadmapTitle: "Foreslått innføringsløp",
       roadmapSubtitle:
         "Et nøkternt løp som bygger tillit, beviser verdi og standardiserer det som faktisk virker.",
-      meetingTitle: "Spørsmål du kan bruke i møtet",
+      meetingTitle: "Spørsmål som avklarer hvor du bør starte",
       meetingSubtitle:
-        "Disse spørsmålene gjør samtalen konkret og flytter den bort fra generell AI-prat.",
+        "Disse spørsmålene hjelper deg å identifisere hvilke arbeidsoppgaver som vil gi størst effekt raskest.",
       navTitle: "Navigasjon",
       settingsTitle: "Innstillinger",
       aboutTitle: "Om Employees 361",
       aboutText: "Employees 361 er bygget av ThreeSixtyOne — et norsk AI-rådgivningsfirma som hjelper SMB-er å gå fra AI-nysgjerrighet til faktisk gjennomføring. Besøk oss på the361.ai",
       tabRoles: "Praktiske roller",
       tabPerspective: "AI-perspektivet",
-      tabBuilder: "Bygg din agent",
+      tabBuilder: "Bygg ditt team",
       perspectiveTitle: "AI-perspektivet for SMB",
       perspectiveSubtitle: "Fra verktøy til kognitiv medarbeider – og hvorfor små og mellomstore bedrifter har en unik fordel.",
       perspectiveBlocks: [
@@ -1550,20 +1675,20 @@ export default function App() {
       rolesTitle: "Roles worth building first",
       recsTitle: "Strategic recommendations based on experience so far",
       recsSubtitle:
-        "These recommendations connect what you have already learned about AI adoption, ways of working and maturity to what Ascension most likely needs now.",
+        "These recommendations are based on experience from Nordic SMBs that have introduced AI into their daily work — from the first cautious steps to functioning workflows.",
       roadmapTitle: "Suggested rollout path",
       roadmapSubtitle:
         "A practical rollout that builds trust, proves value and standardises what actually works.",
-      meetingTitle: "Questions you can use in the meeting",
+      meetingTitle: "Questions that clarify where to begin",
       meetingSubtitle:
-        "These questions make the conversation concrete and move it away from generic AI talk.",
+        "These questions help you identify which tasks will deliver the most impact the fastest.",
       navTitle: "Navigation",
       settingsTitle: "Settings",
       aboutTitle: "About Employees 361",
       aboutText: "Employees 361 is built by ThreeSixtyOne — a Norwegian AI consultancy that helps SMBs move from AI curiosity to actual implementation. Visit us at the361.ai",
       tabRoles: "Practical roles",
       tabPerspective: "The AI perspective",
-      tabBuilder: "Build your agent",
+      tabBuilder: "Build your team",
       perspectiveTitle: "The AI Perspective for SMBs",
       perspectiveSubtitle: "From tools to cognitive co-workers – and why small and medium businesses have a unique advantage.",
       perspectiveBlocks: [
@@ -2018,20 +2143,20 @@ export default function App() {
 
   const meetingQuestions = {
     no: [
-      "Hvor i dagens kundearbeid går mest senior-tid til produksjon fremfor vurdering?",
-      "Hvilke leveranser følger egentlig et mønster selv om de oppleves som skreddersydde?",
-      "Hvor ville et godt førsteutkast spart 30–60 % tid?",
-      "Hva må alltid eies og godkjennes av mennesker?",
-      "Hvilke arbeidsoppgaver er så repeterbare at de kan få en fast AI-støttet flyt?",
-      "Hvis dere bare skulle starte med to områder, hvilke ville gitt mest effekt raskest?",
+      "Hvor går mest tid i din virksomhet til oppgaver som gjentas uke etter uke?",
+      "Hvilke oppgaver ville du delegert i dag hvis du hadde en ekstra ressurs?",
+      "Hva er den største flaskehalsen mellom en god idé og ferdig leveranse?",
+      "Hvilke beslutninger tar lengst tid fordi det mangler riktig informasjon?",
+      "Hvor mye senior-tid brukes på å produsere fremfor å vurdere og beslutte?",
+      "Hvis du skulle doble kapasiteten uten å ansette — hvor ville du startet?",
     ],
     en: [
-      "Where in current client work is the most senior time spent on production rather than judgment?",
-      "Which deliverables actually follow a pattern even if they feel tailored?",
-      "Where would a strong first draft save 30–60% of the time?",
-      "What must always be owned and approved by humans?",
-      "Which work tasks are repetitive enough to deserve a fixed AI-supported flow?",
-      "If you only started with two areas, which would create the fastest effect?",
+      "Where does the most time in your business go to tasks that repeat week after week?",
+      "Which tasks would you delegate today if you had one extra resource?",
+      "What is the biggest bottleneck between a good idea and a finished deliverable?",
+      "Which decisions take the longest because the right information is missing?",
+      "How much senior time is spent producing rather than judging and deciding?",
+      "If you had to double capacity without hiring — where would you start?",
     ],
   };
 
@@ -2065,470 +2190,6 @@ export default function App() {
     );
   }
 
-  function FieldWithAI({ label, value, onChange, fieldName, placeholder }: { label: string, value: string, onChange: (v: string) => void, fieldName: string, placeholder?: string }) {
-    const [improving, setImproving] = useState(false);
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-    useEffect(() => {
-      if (textareaRef.current) {
-        textareaRef.current.style.height = 'auto';
-        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-      }
-    }, [value]);
-
-    const handleImprove = async () => {
-      if (!value.trim()) return;
-      setImproving(true);
-      try {
-        const response = await ai.models.generateContent({
-          model: "gemini-3-flash-preview",
-          contents: `You are an expert communications strategist. Improve the following input for a creative/project brief. 
-          Field: ${fieldName}
-          Current value: ${value}
-          
-          Make it professional, clear, and concise. Respond ONLY with the improved text, nothing else. Respond in ${lang === 'no' ? 'Norwegian' : 'English'}.`
-        });
-        onChange(response.text?.trim() || value);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setImproving(false);
-      }
-    };
-
-    return (
-      <div className="space-y-space-2">
-        <div className="flex justify-between items-center">
-          <label className="font-body text-xs font-medium uppercase tracking-wider text-muted-foreground">{label}</label>
-          <button 
-            onClick={handleImprove} 
-            disabled={improving || !value.trim()} 
-            className="text-terracotta hover:text-terracotta/80 disabled:opacity-50 flex items-center gap-1 text-xs font-medium transition-colors"
-          >
-            {improving ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
-            {lang === 'no' ? 'Forbedre med AI' : 'Improve with AI'}
-          </button>
-        </div>
-        <textarea
-          ref={textareaRef}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
-          rows={1}
-          className="w-full bg-background border border-border rounded-md p-2 font-body text-sm focus:outline-none focus:ring-2 focus:ring-terracotta resize-none overflow-hidden min-h-[40px]"
-        />
-      </div>
-    );
-  }
-
-  function DynamicBriefDemo() {
-    const [step, setStep] = useState<"setup" | "dialog" | "result">("setup");
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
-    // Setup state
-    const [theme, setTheme] = useState("Lansering av nytt rådgivningskonsept: 'Fra Strategi til Eksekvering'");
-    const [audience, setAudience] = useState("Toppledere (CEO), markedsdirektører (CMO) og ledergrupper i mellomstore til store bedrifter");
-    const [goal, setGoal] = useState("Booke 5 strategimøter, posisjonere Ascension som 'no bullshit' eksperter på skjæringspunktet mellom ledelse, merkevare og markedsføring");
-    const [channels, setChannels] = useState("LinkedIn (organisk for partnere), Ascension.as (artikkel), direkte e-post til nettverk");
-    const [tone, setTone] = useState("No bullshit, direkte, erfaringsbasert, strategisk men pragmatisk. Engasjerende.");
-    const [deliverables, setDeliverables] = useState("1 thought leadership-artikkel til nettsiden, 3 LinkedIn-poster for partnerne, 1 e-postmal for outreach");
-
-    // Sources state
-    const [sourceNotes, setSourceNotes] = useState("Møtenotater fra forrige uke: Vi må få frem at strategi er verdiløst uten eksekvering. Mange selskaper sliter med siloer mellom HR, drift og marked. Vår filosofi er at ekte vekst skjer når hele organisasjonen er besatt av å dekke kundenes behov. Kommunikasjon er et kritisk verktøy for ledelse. Vi må skille oss fra konsulenter som bare lager fine PowerPoints - vi er praktikere som får ting til å skje.");
-    const [sourceFiles, setSourceFiles] = useState<{name: string, content: string}[]>([]);
-    const [sourceUrls, setSourceUrls] = useState<string[]>(["https://ascension.as/"]);
-    const [newUrl, setNewUrl] = useState("");
-
-    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const files = e.target.files;
-      if (!files) return;
-      
-      Array.from(files).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          const content = event.target?.result as string;
-          setSourceFiles(prev => [...prev, { name: file.name, content }]);
-        };
-        reader.readAsText(file);
-      });
-      // Reset input
-      e.target.value = '';
-    };
-
-    const handleAddUrl = () => {
-      if (newUrl.trim() && newUrl.startsWith("http")) {
-        setSourceUrls(prev => [...prev, newUrl.trim()]);
-        setNewUrl("");
-      }
-    };
-
-    // Dialog state
-    const [chat, setChat] = useState<any>(null);
-    const [messages, setMessages] = useState<{role: "user" | "model", text: string}[]>([]);
-    const [userInput, setUserInput] = useState("");
-    
-    // Result state
-    const [finalBrief, setFinalBrief] = useState<string | null>(null);
-
-    const startDialog = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const filesText = sourceFiles.map(f => `Fil: ${f.name}\nInnhold:\n${f.content}`).join("\n\n");
-        const urlsText = sourceUrls.length > 0 ? `Relevante lenker:\n${sourceUrls.join("\n")}` : "";
-        const combinedSources = `Notater:\n${sourceNotes}\n\n${filesText}\n\n${urlsText}`;
-
-        const newChat = ai.chats.create({
-          model: "gemini-3.1-pro-preview",
-          config: {
-            tools: [{ urlContext: {} }],
-            systemInstruction: `Du er en ekspert på å lage 'Dynamiske Briefer' for innholdsproduksjon.
-            Brukeren har oppgitt følgende rammer:
-            Tema: ${theme}
-            Målgruppe: ${audience}
-            Mål: ${goal}
-            Kanaler: ${channels}
-            Tone: ${tone}
-            Ønsket leveranse: ${deliverables}
-            Kildemateriale: ${combinedSources}
-            
-            Din oppgave er å ha en kort, guidet dialog med brukeren for å kvalitetssikre briefen.
-            1. Still ETT konkret, innsiktsfullt spørsmål basert på kildematerialet for å forbedre briefen.
-            2. Når brukeren svarer, bruk 'Clarify & Confirm'-mekanismen: Oppsummer hovedpoenget og spør om det er riktig forstått.
-            3. Hvis brukeren bekrefter, svar med eksakt teksten "KLAR_FOR_BRIEF" for å signalisere at briefen kan genereres.
-            Svar alltid på norsk. Vær kort, presis og profesjonell.`,
-          }
-        });
-        setChat(newChat);
-        
-        const response = await newChat.sendMessage({ message: "Hei! Jeg vil gjerne starte brief-prosessen. Kan du stille meg et spørsmål basert på kildematerialet?" });
-        setMessages([{ role: "model" as const, text: response.text || "" }]);
-        setStep("dialog");
-      } catch (err: any) {
-        setError(err.message || "An error occurred");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const sendMessage = async () => {
-      if (!userInput.trim() || !chat) return;
-      
-      const newMessages = [...messages, { role: "user" as const, text: userInput }];
-      setMessages(newMessages);
-      setUserInput("");
-      setLoading(true);
-      setError(null);
-      
-      try {
-        const response = await chat.sendMessage({ message: userInput });
-        const responseText = response.text || "";
-        
-        if (responseText.includes("KLAR_FOR_BRIEF")) {
-          generateFinalBrief(newMessages);
-        } else {
-          setMessages([...newMessages, { role: "model" as const, text: responseText }]);
-        }
-      } catch (err: any) {
-        setError(err.message || "An error occurred");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const generateFinalBrief = async (chatHistory: any[]) => {
-      setLoading(true);
-      setStep("result");
-      try {
-        const historyText = chatHistory.map(m => `${m.role}: ${m.text}`).join("\n");
-        const filesText = sourceFiles.map(f => `Fil: ${f.name}\nInnhold:\n${f.content}`).join("\n\n");
-        const urlsText = sourceUrls.length > 0 ? `Relevante lenker:\n${sourceUrls.join("\n")}` : "";
-        const combinedSources = `Notater:\n${sourceNotes}\n\n${filesText}\n\n${urlsText}`;
-
-        const response = await ai.models.generateContent({
-          model: "gemini-3.1-pro-preview",
-          contents: `Du er en ekspert på å skrive ferdige, strukturerte briefer.
-          Basert på følgende rammer og dialog, generer en komplett, velformulert brief.
-          
-          Rammer:
-          Tema: ${theme}
-          Målgruppe: ${audience}
-          Mål: ${goal}
-          Kanaler: ${channels}
-          Tone: ${tone}
-          Ønsket leveranse: ${deliverables}
-          Kildemateriale: ${combinedSources}
-          
-          Dialoghistorikk:
-          ${historyText}
-          
-          Briefen skal inneholde:
-          1. Kontekst og Bakgrunn
-          2. Målgruppe og Mål
-          3. Hovedbudskap (inkludert innsikt fra dialogen)
-          4. Kanaler, Tone og Leveranse
-          5. Vedlagt Kildemateriale
-          
-          Bruk Markdown for formatering. Svar på norsk.`,
-          config: {
-            tools: [{ urlContext: {} }]
-          }
-        });
-        setFinalBrief(response.text || "");
-      } catch (err: any) {
-        setError(err.message || "An error occurred");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    return (
-      <div className="bg-card border border-border rounded-lg p-space-6 space-y-space-6">
-        <div className="space-y-space-2">
-          <h3 className="font-display text-xl font-medium text-foreground tracking-headline flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-terracotta" />
-            {lang === "no" ? "Interaktiv Demo: Dynamisk Brief (V1.0)" : "Interactive Demo: Dynamic Brief (V1.0)"}
-          </h3>
-          <p className="font-body text-sm text-muted-foreground leading-reading">
-            {lang === "no" 
-              ? "Opplev hvordan AI kan guide deg fra løse tanker til en ferdig, strukturert brief gjennom en 'Clarify & Confirm'-dialog." 
-              : "Experience how AI can guide you from loose thoughts to a finished, structured brief through a 'Clarify & Confirm' dialog."}
-          </p>
-        </div>
-
-        {error && (
-          <div className="p-space-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-600 text-sm font-body">
-            {error}
-          </div>
-        )}
-
-        {step === "setup" && (
-          <div className="grid md:grid-cols-2 gap-space-6">
-            <div className="space-y-space-6">
-              <div className="space-y-space-4">
-                <h4 className="font-display text-lg font-medium text-foreground tracking-headline flex items-center gap-2">
-                  <FileUp className="w-4 h-4 text-muted-foreground" />
-                  {lang === "no" ? "1. Kildemateriale" : "1. Source Material"}
-                </h4>
-                
-                <FieldWithAI 
-                  label={lang === "no" ? "Tema" : "Theme"} 
-                  value={theme} 
-                  onChange={setTheme} 
-                  fieldName="Tema/Theme" 
-                  placeholder={lang === "no" ? "F.eks. Lansering av nytt produkt" : "E.g. Launch of new product"} 
-                />
-
-                <div className="space-y-space-2">
-                  <label className="font-body text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                    {lang === "no" ? "Lenker & Dokumenter" : "Links & Documents"}
-                  </label>
-                  
-                  {/* URL Input */}
-                  <div className="flex gap-2">
-                    <input 
-                      value={newUrl} 
-                      onChange={e => setNewUrl(e.target.value)} 
-                      onKeyDown={e => e.key === "Enter" && handleAddUrl()}
-                      placeholder="https://..." 
-                      className="flex-1 bg-background border border-border rounded-md p-2 font-body text-sm focus:outline-none focus:ring-2 focus:ring-terracotta" 
-                    />
-                    <button onClick={handleAddUrl} className="bg-secondary text-secondary-foreground px-3 rounded-md hover:bg-secondary/80 flex items-center justify-center">
-                      <Plus className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  {/* File Input */}
-                  <div>
-                    <input type="file" multiple accept=".txt,.md,.csv" onChange={handleFileUpload} className="hidden" id="file-upload" />
-                    <label htmlFor="file-upload" className="cursor-pointer inline-flex items-center gap-2 text-sm text-terracotta hover:underline font-medium">
-                      <FileUp className="w-4 h-4"/> 
-                      {lang === "no" ? "Last opp dokumenter (.txt, .md, .csv)" : "Upload documents (.txt, .md, .csv)"}
-                    </label>
-                  </div>
-
-                  {/* Source Lists */}
-                  {(sourceUrls.length > 0 || sourceFiles.length > 0) && (
-                    <div className="bg-background border border-border rounded-md p-3 space-y-2 mt-2">
-                      {sourceUrls.map((url, i) => (
-                        <div key={`url-${i}`} className="flex items-center justify-between text-sm bg-card p-2 rounded border border-border">
-                          <div className="flex items-center gap-2 truncate">
-                            <Link className="w-3 h-3 text-muted-foreground shrink-0" />
-                            <span className="truncate text-muted-foreground">{url}</span>
-                          </div>
-                          <button onClick={() => setSourceUrls(prev => prev.filter((_, idx) => idx !== i))} className="text-muted-foreground hover:text-red-500 shrink-0">
-                            <Trash2 className="w-3 h-3" />
-                          </button>
-                        </div>
-                      ))}
-                      {sourceFiles.map((file, i) => (
-                        <div key={`file-${i}`} className="flex items-center justify-between text-sm bg-card p-2 rounded border border-border">
-                          <div className="flex items-center gap-2 truncate">
-                            <FileText className="w-3 h-3 text-muted-foreground shrink-0" />
-                            <span className="truncate text-muted-foreground">{file.name}</span>
-                          </div>
-                          <button onClick={() => setSourceFiles(prev => prev.filter((_, idx) => idx !== i))} className="text-muted-foreground hover:text-red-500 shrink-0">
-                            <Trash2 className="w-3 h-3" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <FieldWithAI 
-                  label={lang === "no" ? "Rånotater" : "Raw Notes"} 
-                  value={sourceNotes} 
-                  onChange={setSourceNotes} 
-                  fieldName="Rånotater/Raw Notes" 
-                  placeholder={lang === "no" ? "Lim inn løse tanker, møtenotater eller utkast her..." : "Paste loose thoughts, meeting notes or drafts here..."} 
-                />
-              </div>
-            </div>
-
-            <div className="space-y-space-4">
-              <h4 className="font-display text-lg font-medium text-foreground tracking-headline flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-muted-foreground" />
-                {lang === "no" ? "2. Definer Rammer" : "2. Define Framework"}
-              </h4>
-              
-              <FieldWithAI 
-                label={lang === "no" ? "Målgruppe" : "Audience"} 
-                value={audience} 
-                onChange={setAudience} 
-                fieldName="Målgruppe/Audience" 
-                placeholder={lang === "no" ? "Hvem snakker vi til?" : "Who are we talking to?"} 
-              />
-              
-              <FieldWithAI 
-                label={lang === "no" ? "Mål" : "Goal"} 
-                value={goal} 
-                onChange={setGoal} 
-                fieldName="Mål/Goal" 
-                placeholder={lang === "no" ? "Hva skal vi oppnå?" : "What do we want to achieve?"} 
-              />
-              
-              <div className="grid grid-cols-2 gap-space-4">
-                <FieldWithAI 
-                  label={lang === "no" ? "Kanaler" : "Channels"} 
-                  value={channels} 
-                  onChange={setChannels} 
-                  fieldName="Kanaler/Channels" 
-                  placeholder={lang === "no" ? "Hvor skal det publiseres?" : "Where will it be published?"} 
-                />
-                <FieldWithAI 
-                  label={lang === "no" ? "Tone" : "Tone"} 
-                  value={tone} 
-                  onChange={setTone} 
-                  fieldName="Tone/Tone" 
-                  placeholder={lang === "no" ? "Hvordan skal vi høres ut?" : "How should we sound?"} 
-                />
-              </div>
-              
-              <FieldWithAI 
-                label={lang === "no" ? "Ønsket Leveranse" : "Deliverables"} 
-                value={deliverables} 
-                onChange={setDeliverables} 
-                fieldName="Ønsket Leveranse/Deliverables" 
-                placeholder={lang === "no" ? "Hva skal produseres?" : "What should be produced?"} 
-              />
-            </div>
-
-            <div className="md:col-span-2 pt-space-4 flex justify-end">
-              <button
-                onClick={startDialog}
-                disabled={loading}
-                className="bg-terracotta text-terracotta-foreground px-space-6 py-space-3 rounded-full font-body text-sm font-medium transition-colors hover:bg-terracotta/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-              >
-                {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-                {lang === "no" ? "Start Guidet Dialog" : "Start Guided Dialog"}
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {step === "dialog" && (
-          <div className="space-y-space-4">
-            <div className="bg-background border border-border rounded-lg p-space-4 h-96 overflow-y-auto space-y-space-4 flex flex-col">
-              {messages.map((msg, idx) => (
-                <div key={idx} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[80%] rounded-lg p-space-3 font-body text-sm leading-reading ${msg.role === "user" ? "bg-terracotta text-terracotta-foreground" : "bg-card border border-border text-foreground"}`}>
-                    <Markdown>{msg.text}</Markdown>
-                  </div>
-                </div>
-              ))}
-              {loading && (
-                <div className="flex justify-start">
-                  <div className="bg-card border border-border rounded-lg p-space-3 flex items-center gap-2">
-                    <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
-                    <span className="font-body text-sm text-muted-foreground">AI tenker...</span>
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="flex gap-space-2">
-              <input
-                value={userInput}
-                onChange={e => setUserInput(e.target.value)}
-                onKeyDown={e => e.key === "Enter" && sendMessage()}
-                placeholder={lang === "no" ? "Svar AI-en her..." : "Reply to AI here..."}
-                className="flex-1 bg-background border border-border rounded-full px-space-4 py-space-2 font-body text-sm focus:outline-none focus:ring-2 focus:ring-terracotta"
-              />
-              <button
-                onClick={sendMessage}
-                disabled={loading || !userInput.trim()}
-                className="bg-terracotta text-terracotta-foreground p-space-2 rounded-full transition-colors hover:bg-terracotta/90 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <Send className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="flex justify-end pt-space-2">
-              <button
-                onClick={() => generateFinalBrief(messages)}
-                disabled={loading}
-                className="text-terracotta font-body text-sm font-medium hover:underline flex items-center gap-1"
-              >
-                {lang === "no" ? "Hopp over og generer brief" : "Skip and generate brief"}
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {step === "result" && (
-          <div className="space-y-space-6">
-            {loading ? (
-              <div className="flex flex-col items-center justify-center py-space-12 space-y-space-4">
-                <Loader2 className="w-8 h-8 animate-spin text-terracotta" />
-                <p className="font-body text-muted-foreground">Genererer ferdig brief...</p>
-              </div>
-            ) : (
-              <>
-                <div className="bg-background border border-border rounded-lg p-space-6 prose prose-sm prose-p:leading-reading prose-headings:font-display prose-headings:tracking-headline prose-a:text-terracotta max-w-none font-body text-foreground">
-                  <Markdown>{finalBrief || ""}</Markdown>
-                </div>
-                <div className="flex justify-end">
-                  <button
-                    onClick={() => {
-                      setStep("setup");
-                      setMessages([]);
-                      setFinalBrief(null);
-                      setChat(null);
-                    }}
-                    className="bg-card border border-border text-foreground px-space-6 py-space-3 rounded-full font-body text-sm font-medium transition-colors hover:bg-background flex items-center gap-2"
-                  >
-                    {lang === "no" ? "Start på nytt" : "Start over"}
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        )}
-      </div>
-    );
-  }
 
   function renderDepthContent() {
     if (selectedDepth === "overview") {
@@ -2592,9 +2253,6 @@ export default function App() {
     }
 
     if (selectedDepth === "demo") {
-      if (selectedRole === "insight") {
-        return <DynamicBriefDemo />;
-      }
       return (
         <div className="bg-card border border-border rounded-lg p-space-6 text-center py-space-12">
           <p className="font-body text-muted-foreground">
@@ -2617,9 +2275,11 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col md:flex-row">
-      {/* Left Sidebar */}
-      <aside className="w-full md:w-80 lg:w-96 bg-card border-r border-border flex flex-col shrink-0 md:h-screen md:sticky md:top-0 overflow-y-auto">
+    <>
+      <HeroSection lang={lang} setLang={setLang} setMainTab={setMainTab} />
+      <div id="app-main" ref={appMainRef} className="min-h-screen bg-background text-foreground flex flex-col md:flex-row">
+        {/* Left Sidebar */}
+        <aside className="w-full md:w-80 lg:w-96 bg-card border-r border-border flex flex-col shrink-0 md:h-screen md:sticky md:top-0 overflow-y-auto">
         <div className="p-space-6 space-y-space-8">
           {/* Hero Section */}
           <div className="space-y-space-4">
@@ -2742,41 +2402,143 @@ export default function App() {
         </section>
 
         {mainTab === "perspective" && (
-          <section className="space-y-space-6 animate-in fade-in duration-500">
-            <div className="space-y-space-2">
-              <h2 className="font-display text-3xl font-medium tracking-headline text-foreground">
-                {ui.perspectiveTitle}
-              </h2>
-              <p className="font-body text-base text-muted-foreground max-w-prose">
-                {ui.perspectiveSubtitle}
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-space-5">
-              {ui.perspectiveBlocks.map((block: any, i: number) => (
-                <div
-                  key={i}
-                  className={
-                    i === 0
-                      ? "bg-primary text-primary-foreground rounded-lg p-space-6 space-y-space-3"
-                      : "bg-card border border-border rounded-lg p-space-6 space-y-space-3"
-                  }
-                >
-                  <h3
-                    className={`font-display text-xl font-medium tracking-headline ${
-                      i === 0 ? "text-accent" : "text-foreground"
-                    }`}
-                  >
-                    {block.title}
-                  </h3>
-                  <p
-                    className={`font-body text-base leading-reading ${
-                      i === 0 ? "opacity-90" : "text-muted-foreground"
-                    }`}
-                  >
-                    {block.body}
+          <section className="space-y-space-8 md:space-y-space-9 animate-in fade-in duration-500">
+            {/* SUBSECTION 1 — The core multiplier statement */}
+            <div className="bg-primary text-primary-foreground rounded-lg p-space-8 md:p-space-10">
+              <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-space-8">
+                {/* Left side */}
+                <div>
+                  <div className="font-body text-xs uppercase tracking-widest text-accent mb-space-4">
+                    {lang === "no" ? "Kjernetesen" : "The core thesis"}
+                  </div>
+                  <h2 className="font-display text-4xl md:text-5xl font-bold text-primary-foreground leading-tight max-w-[20ch]">
+                    {lang === "no" 
+                      ? "Et lite team skalerer ikke ved å ansette lineært." 
+                      : "A small team does not scale by hiring linearly."}
+                  </h2>
+                  <p className="font-body text-lg text-primary-foreground/85 leading-relaxed mt-space-5 max-w-[48ch]">
+                    {lang === "no"
+                      ? "Det skalerer ved å la hvert menneske operere som en orkestrator — støttet av AI-roller som håndterer research, produksjon og repetisjon. Resultatet er ikke et større team. Det er et raskere, skarpere og mer konsistent ett."
+                      : "It scales by letting each person operate as an orchestrator — supported by AI roles that handle research, production and repetition. The result is not a larger team. It is a faster, sharper and more consistent one."}
                   </p>
                 </div>
-              ))}
+                
+                {/* Right side */}
+                <div className="flex flex-col gap-space-5">
+                  <div className="bg-white/8 border border-white/15 rounded-lg p-space-5">
+                    <div className="font-display text-4xl font-bold text-accent">2–5x</div>
+                    <div className="font-body text-sm text-primary-foreground/80 mt-1">
+                      {lang === "no" ? "mer output fra de samme menneskene" : "more output from the same people"}
+                    </div>
+                  </div>
+                  <div className="bg-white/8 border border-white/15 rounded-lg p-space-5">
+                    <div className="font-display text-4xl font-bold text-accent">30 dager</div>
+                    <div className="font-body text-sm text-primary-foreground/80 mt-1">
+                      {lang === "no" ? "til første operative AI-arbeidsflyt" : "to your first operational AI workflow"}
+                    </div>
+                  </div>
+                  <div className="bg-white/8 border border-white/15 rounded-lg p-space-5">
+                    <div className="font-display text-4xl font-bold text-accent">100%</div>
+                    <div className="font-body text-sm text-primary-foreground/80 mt-1">
+                      {lang === "no" ? "menneskelig kontroll — alltid" : "human control — always"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* SUBSECTION 2 — What the team becomes vs what AI handles */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-space-5">
+              {/* LEFT CARD */}
+              <div className="bg-card border border-border rounded-lg p-space-7">
+                <div className="font-body text-xs uppercase tracking-wider text-muted-foreground mb-space-5">
+                  {lang === "no" ? "Hva kjerneteamet ditt blir" : "What your core team becomes"}
+                </div>
+                <ul className="space-y-space-4">
+                  {[
+                    lang === "no" ? "En orkestrator av arbeidsflyter i stedet for en manuell repetatør" : "An orchestrator of workflows rather than a manual repeater",
+                    lang === "no" ? "En vurderer av output i stedet for produsent av hvert førsteutkast" : "A reviewer of outputs rather than a producer of every first draft",
+                    lang === "no" ? "En beslutningstaker med AI-research og strukturert analyse" : "A decision-maker with AI research and structured analysis",
+                    lang === "no" ? "En forvalter av kvalitet og kontekst — ikke en flaskehals" : "A guardian of quality and context — not a bottleneck"
+                  ].map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-space-3">
+                      <ArrowRight className="text-accent w-5 h-5 shrink-0 mt-1" />
+                      <span className="font-body text-base text-foreground leading-relaxed">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* RIGHT CARD */}
+              <div className="bg-primary text-primary-foreground rounded-lg p-space-7">
+                <div className="font-body text-xs uppercase tracking-wider text-accent mb-space-5">
+                  {lang === "no" ? "Hva AI håndterer rundt dem" : "What AI handles around them"}
+                </div>
+                <ul className="space-y-space-4">
+                  {[
+                    lang === "no" ? "Research, oppsummering og dokumentanalyse" : "Research, summarisation and document analysis",
+                    lang === "no" ? "Utkast og gjenbruk av innhold på tvers av formater" : "Drafting and repurposing content across formats",
+                    lang === "no" ? "Møtefangst, aksjonspunkter og oppfølgingsstruktur" : "Meeting capture, action items and follow-up structure",
+                    lang === "no" ? "Rapportering, statusoversikter og datakompilering" : "Reporting, status overviews and data compilation"
+                  ].map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-space-3">
+                      <CheckCircle2 className="text-accent w-5 h-5 shrink-0 mt-1" />
+                      <span className="font-body text-base text-primary-foreground/90 leading-relaxed">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* SUBSECTION 3 — The 30-60-90 rollout model */}
+            <div>
+              <div className="font-body text-xs uppercase tracking-wider text-muted-foreground">
+                {lang === "no" ? "En praktisk innføringsmodell" : "A practical rollout model"}
+              </div>
+              <h3 className="font-display text-3xl font-bold text-foreground mt-space-3 max-w-[40ch] leading-tight">
+                {lang === "no" ? "Fra første forsøk til fungerende system på 90 dager." : "From first attempt to working system in 90 days."}
+              </h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-space-5 mt-space-6">
+                {/* Card 1 */}
+                <div className="bg-card border border-border rounded-lg p-space-6">
+                  <div className="font-body text-xs uppercase tracking-wider text-muted-foreground">30 dager</div>
+                  <h4 className="font-display text-xl font-medium text-foreground mt-space-2">
+                    {lang === "no" ? "Vaner og enkle gevinster" : "Habits and easy wins"}
+                  </h4>
+                  <p className="font-body text-sm text-muted-foreground leading-relaxed mt-space-2">
+                    {lang === "no" 
+                      ? "Velg ett AI-arbeidsrom for teamet. Lær tre repeterbare arbeidsflyter. Start der verdien er umiddelbar og risikoen er lav." 
+                      : "Choose one AI workspace for the team. Learn three repeatable workflows. Start where value is immediate and risk is low."}
+                  </p>
+                </div>
+                
+                {/* Card 2 */}
+                <div className="bg-card border border-border rounded-lg p-space-6">
+                  <div className="font-body text-xs uppercase tracking-wider text-muted-foreground">60 dager</div>
+                  <h4 className="font-display text-xl font-medium text-foreground mt-space-2">
+                    {lang === "no" ? "Maler og konsistens" : "Templates and consistency"}
+                  </h4>
+                  <p className="font-body text-sm text-muted-foreground leading-relaxed mt-space-2">
+                    {lang === "no" 
+                      ? "Konverter de beste arbeidsflytene til delte maler. Bygg kvalitetsregler. To interne drivere tar eierskap." 
+                      : "Convert the best workflows into shared templates. Build quality rules. Two internal champions take ownership."}
+                  </p>
+                </div>
+
+                {/* Card 3 */}
+                <div className="bg-card border border-border rounded-lg p-space-6">
+                  <div className="font-body text-xs uppercase tracking-wider text-muted-foreground">90 dager</div>
+                  <h4 className="font-display text-xl font-medium text-foreground mt-space-2">
+                    {lang === "no" ? "Agenter og systemstøtte" : "Agents and system support"}
+                  </h4>
+                  <p className="font-body text-sm text-muted-foreground leading-relaxed mt-space-2">
+                    {lang === "no" 
+                      ? "Introduser AI-agenter for gjentakende research og operativ støtte. Mål tid spart og kvalitetsgevinst." 
+                      : "Introduce AI agents for recurring research and operational support. Measure time saved and quality gains."}
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* Visual Journey Section */}
@@ -2829,17 +2591,22 @@ export default function App() {
           <>
             {/* Roles Section */}
             <section className="space-y-space-6 animate-in fade-in duration-500">
-              <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-space-4">
+              <div className="lg:flex lg:items-end lg:justify-between gap-space-6">
                 <div className="space-y-space-2">
-                  <h2 className="font-display text-3xl font-medium tracking-headline text-foreground">
-                    {ui.sectionsTitle}
+                  <div className="font-body text-xs uppercase tracking-wider text-muted-foreground">
+                    {lang === "no" ? "Seks roller. Umiddelbar verdi." : "Six roles. Immediate value."}
+                  </div>
+                  <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-tight max-w-[30ch] mt-space-2">
+                    {lang === "no" ? "Velg en rolle og se hva den faktisk gjør." : "Choose a role and see what it actually does."}
                   </h2>
-                  <p className="font-body text-base text-muted-foreground max-w-prose">
-                    {ui.sectionsSubtitle}
+                  <p className="font-body text-base text-muted-foreground max-w-[48ch] mt-space-3">
+                    {lang === "no" 
+                      ? "Hver rolle viser et konkret problem, hvordan AI-støtte løser det, og hva som fortsatt krever et menneske." 
+                      : "Each role shows a concrete problem, how AI support solves it, and what still requires a human."}
                   </p>
                 </div>
                 {/* Depth Tabs */}
-                <div className="flex flex-wrap gap-space-2">
+                <div className="flex flex-wrap gap-space-2 mt-space-6 lg:mt-0">
                   {depthOptions.map((opt) => (
                     <button
                       key={opt.key}
@@ -2865,7 +2632,7 @@ export default function App() {
                     className={`h-[64px] px-space-4 rounded-lg border text-left font-body font-medium transition-colors ${
                       selectedRole === item.key
                         ? "bg-terracotta border-terracotta text-terracotta-foreground"
-                        : "bg-card border-border text-foreground hover:bg-border"
+                        : "bg-card border-border text-foreground hover:bg-border hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgb(0,0,0,0.06)] transition-all duration-200"
                     }`}
                   >
                     {item.label}
@@ -2879,74 +2646,93 @@ export default function App() {
 
             {/* Recommendations & Roadmap */}
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-space-6 animate-in fade-in duration-500">
-              {/* Recommendations */}
-              <div className="bg-card border border-border rounded-lg p-space-6 space-y-space-6">
-                <div className="space-y-space-2">
-                  <h2 className="font-display text-2xl font-medium tracking-headline text-foreground">
-                    {ui.recsTitle}
-                  </h2>
-                  <p className="font-body text-sm text-muted-foreground leading-reading">
-                    {ui.recsSubtitle}
-                  </p>
-                </div>
-                <div className="space-y-space-5">
-                  {recommendations[lang].map((rec, i) => (
-                    <div key={i} className="space-y-space-1">
-                      <h4 className="font-display text-lg font-medium text-foreground">
-                        {rec.title}
-                      </h4>
-                      <p className="font-body text-sm text-muted-foreground leading-reading">
-                        {rec.body}
-                      </p>
+              {/* LEFT CARD */}
+              <div className="bg-primary text-primary-foreground rounded-lg p-space-7">
+                <h2 className="font-display text-2xl font-bold text-accent">
+                  {lang === "no" ? "Lederens operasjonsstack" : "The leader operating stack"}
+                </h2>
+                <p className="font-body text-sm text-primary-foreground/80 mt-space-2">
+                  {lang === "no" ? "Fem ting som faktisk utgjør forskjellen." : "Five things that actually make the difference."}
+                </p>
+                
+                <div className="mt-space-6 space-y-space-5">
+                  {[
+                    {
+                      noTitle: "Ett delt AI-arbeidsrom",
+                      noBody: "Velg én plattform for teamet. Lagre prompts, eksempler og beslutninger slik at læringen akkumuleres.",
+                      enTitle: "One shared AI workspace",
+                      enBody: "Choose one platform for the team. Store prompts, examples and decisions so learning compounds."
+                    },
+                    {
+                      noTitle: "Fem kjerne-playbooks",
+                      noBody: "Dokumenter de mest repeterbare jobbene: research, utkast, møtesyntese, oppfølging og innhold. Hold dem enkle.",
+                      enTitle: "Five core playbooks",
+                      enBody: "Document the most repeatable jobs: research, drafting, meeting synthesis, follow-up and content. Keep them simple."
+                    },
+                    {
+                      noTitle: "En review-stige",
+                      noBody: "Definer hva AI kan gjøre alene, hva som trenger en rask sjekk, og hva som alltid krever senior godkjenning.",
+                      enTitle: "A review ladder",
+                      enBody: "Define what AI can do alone, what needs a quick check, and what always requires senior approval."
+                    },
+                    {
+                      noTitle: "To interne drivere",
+                      noBody: "Velg to nysgjerrige operatører som forbedrer arbeidsflytene og hjelper resten av teamet å bruke dem.",
+                      enTitle: "Two internal champions",
+                      enBody: "Choose two curious operators who improve workflows and help the rest of the team use them."
+                    },
+                    {
+                      noTitle: "Ett verdi-dashboard",
+                      noBody: "Mål spart tid, responstid og konsistens. Hvis det ikke gir reell verdi — stopp det.",
+                      enTitle: "One value dashboard",
+                      enBody: "Measure saved time, response speed and consistency. If it does not create real value — stop it."
+                    }
+                  ].map((item, i) => (
+                    <div key={i} className="flex gap-space-4">
+                      <div className="w-8 h-8 rounded-full bg-accent text-foreground flex items-center justify-center font-body text-sm font-medium shrink-0">
+                        {i + 1}
+                      </div>
+                      <div>
+                        <h4 className="font-display text-lg font-medium text-primary-foreground">
+                          {lang === "no" ? item.noTitle : item.enTitle}
+                        </h4>
+                        <p className="font-body text-sm text-primary-foreground/80 leading-relaxed mt-1">
+                          {lang === "no" ? item.noBody : item.enBody}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Roadmap & Meeting Questions */}
-              <div className="space-y-space-6">
-                {/* Roadmap */}
-                <div className="bg-card border border-border rounded-lg p-space-6 space-y-space-6">
-                  <div className="space-y-space-2">
-                    <h2 className="font-display text-2xl font-medium tracking-headline text-foreground">
-                      {ui.roadmapTitle}
-                    </h2>
-                    <p className="font-body text-sm text-muted-foreground leading-reading">
-                      {ui.roadmapSubtitle}
-                    </p>
-                  </div>
-                  <div className="relative border-l border-border ml-space-4 space-y-space-6 py-space-2">
-                    {roadmap[lang].map((phase, i) => (
-                      <div key={i} className="relative pl-space-6">
-                        <div className="absolute -left-[17px] top-0 flex h-8 w-8 items-center justify-center rounded-full bg-card border border-border font-body text-sm font-medium text-foreground">
-                          {i + 1}
-                        </div>
-                        <h4 className="font-display text-lg font-medium text-foreground pt-1">
-                          {phase.title}
-                        </h4>
-                        <p className="font-body text-sm text-muted-foreground leading-reading mt-space-1">
-                          {phase.body}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
+              {/* RIGHT COLUMN */}
+              <div className="flex flex-col gap-space-5">
+                {/* TOP CARD */}
+                <div className="bg-card border border-border rounded-lg p-space-7">
+                  <h2 className="font-display text-2xl font-bold text-foreground">
+                    {lang === "no" ? "Hva du ikke bør gjøre" : "What not to do"}
+                  </h2>
+                  <p className="font-body text-base text-muted-foreground leading-relaxed mt-space-3">
+                    {lang === "no" 
+                      ? "Ikke start med å kjøpe mange verktøy. Ikke be hver medarbeider finne opp sin egen prompting-metode. Ikke automatiser høyrisikobeslutninger først. Standardiser to eller tre arbeidsflyter og gjør dem enkle å bruke." 
+                      : "Do not start by buying many tools. Do not ask every employee to invent their own prompting method. Do not automate high-risk decisions first. Standardise two or three workflows and make them easy to use."}
+                  </p>
                 </div>
 
-                {/* Meeting Questions */}
-                <div className="bg-primary text-primary-foreground rounded-lg p-space-6 space-y-space-5">
-                  <div className="space-y-space-2">
-                    <h2 className="font-display text-2xl font-medium tracking-headline text-accent">
-                      {ui.meetingTitle}
-                    </h2>
-                    <p className="font-body text-sm opacity-90 leading-reading">
-                      {ui.meetingSubtitle}
-                    </p>
-                  </div>
-                  <ul className="space-y-space-3">
+                {/* BOTTOM CARD */}
+                <div className="bg-card border border-border rounded-lg p-space-7">
+                  <h2 className="font-display text-2xl font-bold text-foreground">
+                    {lang === "no" ? "Spørsmål som avklarer hvor du bør starte" : "Questions that clarify where to begin"}
+                  </h2>
+                  <p className="font-body text-sm text-muted-foreground mt-space-1">
+                    {ui.meetingSubtitle}
+                  </p>
+                  
+                  <ul className="mt-space-4 space-y-space-3">
                     {meetingQuestions[lang].map((q, i) => (
                       <li key={i} className="flex gap-space-3 items-start">
-                        <CheckCircle2 className="h-5 w-5 text-accent shrink-0 mt-0.5" />
-                        <span className="font-body text-sm leading-reading">
+                        <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                        <span className="font-body text-sm text-foreground leading-relaxed">
                           {q}
                         </span>
                       </li>
@@ -2963,6 +2749,7 @@ export default function App() {
 
       </main>
       <AIAssistant lang={lang} />
-    </div>
+      </div>
+    </>
   );
 }
